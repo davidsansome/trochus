@@ -1,0 +1,38 @@
+package protobuf;
+
+//option optimize_for = LITE_RUNTIME;
+
+
+message Address {
+  required int32 process = 1;
+  required int32 object = 2;
+}
+
+message Message {
+  required Address from = 1;
+  required Address to = 2;
+
+  optional CommandProcessStarted command_process_started = 3;
+  optional CommandProcessFork command_process_fork = 4;
+  optional CommandProcessExec command_process_exec = 5;
+  optional CommandProcessExit command_process_exit = 6;
+}
+
+message CommandProcessStarted {
+  required int32 pid = 1;
+  repeated string arg = 2;
+}
+
+message CommandProcessFork {
+  required int32 pid = 1;
+  required int32 parent_pid = 2;
+}
+
+message CommandProcessExec {
+  required int32 pid = 1;
+  repeated string arg = 2;
+}
+
+message CommandProcessExit {
+  required int32 pid = 1;
+}
