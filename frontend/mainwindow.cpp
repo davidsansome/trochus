@@ -29,6 +29,7 @@ void MainWindow::SupervisorManagerSocketReady(int) {
 
 void MainWindow::RunCommand() {
   QStringList args = ui_->command_line->text().split(QRegExp("\\s+"));
+  ui_->command_line->clear();
 
   std::list<std::string> std_args;
   foreach (const QString& arg, args) {

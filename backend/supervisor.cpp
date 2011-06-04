@@ -83,7 +83,8 @@ void Supervisor::HandleStop(int pid, int status) {
       // This is the very first process reaching the PTRACE_TRACEME call.  Set
       // some options on it to trace subsequent forks and execs.
       if (ptrace(PTRACE_SETOPTIONS, pid, NULL,
-                 PTRACE_O_TRACEEXEC | PTRACE_O_TRACEFORK) < 0) {
+                 PTRACE_O_TRACEEXEC | PTRACE_O_TRACEFORK |
+                 PTRACE_O_TRACEVFORK) < 0) {
         qLog(Warning) << "SETOPTIONS failed on child PID" << pid;
       }
     }
@@ -129,7 +130,8 @@ void Supervisor::HandleStop(int pid, int status) {
       break;
     }
 
-    case PTRACE_EVENT_FORK: {
+    case PTRACE_EVENT_FORK:
+    case PTRACE_EVENT_VFORK: {
       // Get the PID of the child
       unsigned long new_pid = -1;
       ptrace(PTRACE_GETEVENTMSG, pid, 0, &new_pid);
